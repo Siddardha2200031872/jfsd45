@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .event-list {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="student_home.html">Student Portal</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="events.html">Events</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="profileSettingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Profile Settings
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="profileSettingsDropdown">
+                            <li><a class="dropdown-item" href="view_profile.html">View Profile</a></li>
+                            <li><a class="dropdown-item" href="change_password.html">Change Password</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="student.html">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Category Filter -->
+    <div class="container">
+        <h2 class="text-center">Events</h2>
+        <div class="mb-3">
+            <label for="eventCategoryFilter" class="form-label">Filter by Category</label>
+            <select class="form-select" id="eventCategoryFilter" onchange="filterEvents()">
+                <option value="all">All Categories</option>
+                <option value="sports">Sports</option>
+                <option value="arts">Arts</option>
+                <option value="community">Community</option>
+                <option value="music">Music</option>
+            </select>
+        </div>
+
+        <!-- Upcoming Events List -->
+        <h3>Upcoming Events</h3>
+        <div class="event-list" id="upcomingEvents">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-category="sports">
+                    <span>Sports Day - October 15, 2024</span>
+                    <button class="btn btn-primary btn-sm" onclick="showRegisterModal('Sports Day')">Register</button>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-category="arts">
+                    <span>Art Exhibition - November 2, 2024</span>
+                    <button class="btn btn-primary btn-sm" onclick="showRegisterModal('Art Exhibition')">Register</button>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-category="community">
+                    <span>Community Service - December 10, 2024</span>
+                    <button class="btn btn-primary btn-sm" onclick="showRegisterModal('Community Service')">Register</button>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-category="music">
+                    <span>Music Festival - January 5, 2025</span>
+                    <button class="btn btn-primary btn-sm" onclick="showRegisterModal('Music Festival')">Register</button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Previously Attended Events List -->
+        <h3 class="mt-5">Previously Attended Events</h3>
+        <div class="event-list" id="previousEvents">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-category="sports">
+                    <span>Football Championship - August 20, 2024</span>
+                    <button class="btn btn-secondary btn-sm" disabled>Attended</button>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-category="arts">
+                    <span>Photography Workshop - July 18, 2024</span>
+                    <button class="btn btn-secondary btn-sm" disabled>Attended</button>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-category="community">
+                    <span>Volunteer Drive - June 5, 2024</span>
+                    <button class="btn btn-secondary btn-sm" disabled>Attended</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Register for Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="eventName">Event Name</p>
+                    <form id="registrationForm" onsubmit="handleRegistration(event)">
+                        <div class="mb-3">
+                            <label for="studentName" class="form-label">Your Name</label>
+                            <input type="text" class="form-control" id="studentName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="studentEmail" class="form-label">Your Email</label>
+                            <input type="email" class="form-control" id="studentEmail" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">Submit Registration</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <h4 class="modal-title" id="successModalLabel">Registration Successful!</h4>
+                    <p>Thank you for registering. We look forward to seeing you at the event.</p>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Modal Logic -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showRegisterModal(eventName) {
+            document.getElementById('eventName').textContent = "Register for " + eventName;
+            var registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+            registerModal.show();
+        }
+
+        function filterEvents() {
+            var filter = document.getElementById('eventCategoryFilter').value;
+            var upcomingEvents = document.querySelectorAll('#upcomingEvents .list-group-item');
+            var previousEvents = document.querySelectorAll('#previousEvents .list-group-item');
+
+            function filterList(items) {
+                items.forEach(function (item) {
+                    if (filter === "all" || item.getAttribute('data-category') === filter) {
+                        item.style.display = "";
+                    } else {
+                        item.style.display = "none";
+                    }
+                });
+            }
+
+            filterList(upcomingEvents);
+            filterList(previousEvents);
+        }
+
+        // Handle Registration
+        function handleRegistration(event) {
+            event.preventDefault();
+
+            // Close the registration modal
+            var registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+            registerModal.hide();
+
+            // Show the success modal
+            var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+        }
+    </script>
+</body>
+</html>
